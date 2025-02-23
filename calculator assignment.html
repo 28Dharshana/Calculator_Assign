@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator Assignment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <div class="calculator">
+        <form>
+            <div class="display">
+                <input type="text" name="display" id="display" readonly>
+            </div>
+            <div>
+                <input type="button" value="%" onclick="addToDisplay('%')">
+                <input type="button" value="**" onclick="addToDisplay('**')">
+                <input type="button" value="AC" onclick="clearDisplay()">
+                <input type="button" value="DE" onclick="deleteLastChar()">
+            </div>
+            <div>
+                <input type="button" value="7" onclick="addToDisplay('7')">
+                <input type="button" value="8" onclick="addToDisplay('8')">
+                <input type="button" value="9" onclick="addToDisplay('9')">
+                <input type="button" value="*" onclick="addToDisplay('*')">
+            </div>
+            <div>
+                <input type="button" value="4" onclick="addToDisplay('4')">
+                <input type="button" value="5" onclick="addToDisplay('5')">
+                <input type="button" value="6" onclick="addToDisplay('6')">
+                <input type="button" value="-" onclick="addToDisplay('-')">
+            </div>
+            <div>
+                <input type="button" value="1" onclick="addToDisplay('1')">
+                <input type="button" value="2" onclick="addToDisplay('2')">
+                <input type="button" value="3" onclick="addToDisplay('3')">
+                <input type="button" value="+" onclick="addToDisplay('+')">
+            </div>
+            <div>
+                <input type="button" value="0" onclick="addToDisplay('0')">
+                <input type="button" value="." onclick="addToDisplay('.')">
+                <input type="button" value="/" onclick="addToDisplay('/')">
+                <input type="button" value="=" onclick="calculateResult()" class="equal">
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    let display = document.getElementById('display');
+    let resetDisplay = false;
+
+    function addToDisplay(value) {
+        if (resetDisplay) {
+            display.value = value;
+            resetDisplay = false;
+        } else {
+            display.value += value;
+        }
+    }
+
+    function clearDisplay() {
+        display.value = '';
+    }
+
+    function deleteLastChar() {
+        display.value = display.value.slice(0, -1);
+    }
+
+    function calculateResult() {
+        try {
+            if (!isValidExpression(display.value)) {
+                display.value = 'Syntax Error';
+            } else {
+                display.value = eval(display.value);
+            }
+            resetDisplay = true;
+        } catch (error) {
+            display.value = 'Error';
+            resetDisplay = true;
+        }
+    }
+
+    function isValidExpression(expression) {
+        const validPattern = /^(\d+\.?\d*|\.\d+)([\+\-\*\/]\d+\.?\d*|\.\d+)*$/;
+        return validPattern.test(expression);
+    }
+</script>
+</body>
+</html>
